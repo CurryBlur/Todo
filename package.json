@@ -1,0 +1,23 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "Basic to do list app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CurryBlur/Todo.git"
+  },
+  "author": "Cory Hansen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CurryBlur/Todo/issues"
+  },
+  "homepage": "https://github.com/CurryBlur/Todo#readme",
+  "devDependencies": {
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  }
+}
