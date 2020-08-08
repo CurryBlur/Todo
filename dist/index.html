@@ -3,10 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>To do</title>
+    <link href="https://fonts.googleapis.com/css2?family=Antic+Slab&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Damion&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/be2bfab651.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../src/style.css">
 </head>
 <body>
-    
+    <nav id="nav">
+        <i class="far fa-list-alt"></i><h1>To do</h1>
+    </nav>
+    <div id="background-cover">
+
+    </div>
+    <main>
+        <div id="add-todo">
+            <h2> Add a todo item </h2>
+            <form id="add-todo-form">
+                <label for="title"> Title:
+                    <input class="form-elem" id="title" type="text" placeholder="Enter title" required="true"/>
+                </label>
+                <label for="date"> Due Date:
+                    <input class="form-elem" id="date" type="date" required="false"/>
+                </label>
+                <label for="priority"> Priority:
+                    <select class="form-elem" id="priority" name="priority">
+                        <option value="5">Highest</option>
+                        <option value="4">High</option>
+                        <option value="3">Medium</option>
+                        <option value="2">Low</option>
+                        <option value="1">Lowest</option>
+                    </select>
+                </label>
+                <label for="desc"> Description:</label>
+                <textarea class="form-elem" id="desc" required="false"></textarea>  
+                <button type="button">Add</button>
+            </form>
+        </div>
+    </main>
     <script src="main.js"></script>
 </body>
 </html>

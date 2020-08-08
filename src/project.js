@@ -1,19 +1,17 @@
 class Project {
-    constructor (title, description = "", priority = 3, dueDate = null, tags = []) {
+    constructor (title, description = "", todos = []) {
         this.title = title;
         this.description = description;
-        this.priority = priority; // From 1 to 5, 5 being highest
-        this.dueDate = dueDate;
-        this.tags = tags;
+        this.todos = todos;
     }
 
-    addTag(tag) {
-        this.tags.push(tag);
+    addToDo(todo) {
+        this.todos.push(todo);
     }
 
-    removeTag(tag) {
-        if(this.tags.includes(tag)){
-            this.tags.splice(this.tags.indexOf(tag),1);
+    deleteToDo(todo) {
+        if(this.todos.includes(todo)){
+            this.todos.splice(this.todos.indexOf(todo),1);
         }
     }
 }
