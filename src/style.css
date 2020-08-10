@@ -1,7 +1,6 @@
 * {
     margin: 0;
     padding: 0;
-    
     font-weight: 400;
     box-sizing: border-box;
 }
@@ -12,7 +11,7 @@ body {
     background-size: cover;
     background-attachment: fixed;
     opacity: 100%;
-    font-family: 'Antic Slab', serif;;
+    font-family: 'Antic Slab', serif;
 }
 
 #nav {
@@ -40,19 +39,89 @@ body {
 }
 
 #background-cover {
-    background-color: rgba(0, 0, 0, .25);
+    background-color: rgba(0, 0, 0, 0);
     z-index: 5;
     width: 100%;
     height: 100%;
     position: fixed;
+    pointer-events: none
 }
 
 main {
     display: flex;
-
+    flex-direction: column;
+    letter-spacing: .1em;
 }
 
+#projects {
+    display: flex;
+    padding: 45px 45px 0px 45px;
+    flex-wrap: wrap;
+}
+
+.project-card {
+    background-color:  rgb(107, 102, 93);
+    border-radius: .1em;
+    color: white;
+    z-index: 4;
+    box-shadow: 0px 0px 10px 1px black;
+    font-size: 35px;
+    padding: 25px;
+    margin: 25px;
+}
+
+#new-project {
+    padding: 0px 45px;
+    width: 500px;
+}
+
+#new-project-button {
+    color: white;
+    border: none;
+    font-size: 35px;
+    background-color: rgb(107, 102, 93);
+    cursor: pointer;
+    display: block;
+    padding: 25px;
+    z-index: 4;
+    box-shadow: 0px 0px 10px 1px black;
+    margin: 25px;
+}
+
+.project-name {
+    text-align: center;
+    width: 100%;
+    padding: 25px;
+    background-color:  rgb(107, 102, 93);
+    color: white;
+    margin-bottom: 10px;
+    border: none;
+    font-size: 35px;
+}
+
+.todo-basic > p {
+    display: inline;
+    margin-left: 10px;
+    margin-right: 45px;
+}
+
+.checked {
+    text-decoration: line-through;
+    color: rgb(175, 175, 175);
+}
+
+.unchecked {
+    color: white;
+    text-decoration: none;
+}
+
+.add-new-item {
+    text-align: center;
+    margin-top: 30px
+}
 #add-todo {
+    /*remove as needed:*/
+    display: none;
     position: fixed;
     width: 50%;
     height: 50%;
@@ -90,11 +159,27 @@ main {
     font-size: 25px;
     border-radius: .1em;
     padding: 10px;
-    margin-left: 25px;
+    width: 100%;
+}
+
+.form-elem:active, .form-elem:focus, .form-elem:focus-within, .project-name, #new-project-button {
+    outline: none;
 }
 
 #add-todo-form > textarea {
-    width: 90%;
+    width: 94%;
     margin: auto;
-    height: 200px;
+    height: 150px;
+}
+
+#add-todo-form > button, .project-card > button {
+    align-self: center;
+    margin-top: 25px;
+    padding: 10px;
+    width: 94%;
+}
+
+#add-todo-form > button:hover, .project-card > button:hover{
+    background-color:  rgb(129, 124, 116);
+    cursor: pointer;
 }
