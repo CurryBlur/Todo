@@ -22,9 +22,6 @@ class ProjectManager {
     getProjByID(ID){
         let output = false;
         this.projects.forEach((project) => {
-            console.log(project)
-            console.log(ID)
-            console.log(project.ID)
             if(project.ID == ID) {
                 output = project;
             }

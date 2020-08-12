@@ -81,23 +81,16 @@ class ViewManager {
         let projectID = this.projectManager.getIDByProj(project);
         document.querySelectorAll('.project-card').forEach((card) =>{
             if(card.getAttribute('data-proj') == projectID) {
+                // find new item button, add before that
                 let addItemButton = card.lastChild;
+
+                //set up overall todoiv
                 let newToDoDiv = document.createElement('div');
                 newToDoDiv.classList.add('todo-basic')
                 newToDoDiv.setAttribute('data-todo',newtodo)
-                let newToDoI = document.createElement('i');
-                newToDoI.classList.add('far');
-                newToDoI.classList.add('fa-circle');
-                let newToDoInp = document.createElement('input');
-                newToDoInp.classList.add('unchecked');
-                newToDoInp.classList.add('project-name');
-                newToDoInp.value=newtodo.title;
-                let newToDoEdit = document.createElement('i');
-                newToDoEdit.classList.add('far');
-                newToDoEdit.classList.add('fa-edit');
-                newToDoDiv.appendChild(newToDoI);
-                newToDoDiv.appendChild(newToDoInp);
-                newToDoDiv.appendChild(newToDoEdit)
+
+                this.addToDoLine(newToDoDiv);
+                
                 card.insertBefore(newToDoDiv,addItemButton);
             }
         });
@@ -107,6 +100,31 @@ class ViewManager {
         let addToDoWindow = document.querySelector('#add-todo');
         addToDoWindow.style.display = 'block'
         addToDoWindow.setAttribute('data-proj', this.projectManager.getIDByProj(project))
+        let backgroundCover = document.querySelector('#background-cover');
+        backgroundCover.style.backgroundColor = 'rgba(0, 0, 0, .5)';
+    }
+
+    addToDoLine(newToDoDiv) {
+        // add clickable icon to check/uncheck
+        let newToDoI = document.createElement('i');
+        newToDoI.classList.add('far');
+        newToDoI.classList.add('fa-circle');
+
+        //add input for text, changing it updates todo title
+        let newToDoInp = document.createElement('input');
+        newToDoInp.classList.add('unchecked');
+        newToDoInp.classList.add('project-name');
+        newToDoInp.value=newtodo.title;
+
+        // add edit link, clinking it allows you to edit with add tab
+        let newToDoEdit = document.createElement('i');
+        newToDoEdit.classList.add('far');
+        newToDoEdit.classList.add('fa-edit');
+
+        //append items to passed in Div
+        newToDoDiv.appendChild(newToDoI);
+        newToDoDiv.appendChild(newToDoInp);
+        newToDoDiv.appendChild(newToDoEdit);
     }
 }
 
