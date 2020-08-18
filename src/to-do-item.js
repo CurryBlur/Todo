@@ -1,5 +1,5 @@
 class ToDoItem {
-    constructor (project, title, description = "", priority = 3, dueDate = null, tags = null) {
+    constructor (project, title, description = "", priority = 3, dueDate = 'none', tags = null) {
         this.project = project;
         this.title = title;
         this.description = description;
@@ -23,6 +23,10 @@ class ToDoItem {
         if(this.tags.includes(tag)){
             this.tags.splice(this.tags.indexOf(tag),1);
         }
+    }
+
+    toggleComplete(){
+        this.completed = !this.completed;
     }
 }
 

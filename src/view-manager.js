@@ -89,7 +89,7 @@ class ViewManager {
                 newToDoDiv.classList.add('todo-basic')
                 newToDoDiv.setAttribute('data-todo',newtodo)
 
-                this.addToDoLine(newToDoDiv);
+                this.addToDoLine(newToDoDiv, newtodo);
                 
                 card.insertBefore(newToDoDiv,addItemButton);
             }
@@ -104,28 +104,110 @@ class ViewManager {
         backgroundCover.style.backgroundColor = 'rgba(0, 0, 0, .5)';
     }
 
-    addToDoLine(newToDoDiv) {
+    editToDo(todo, project) {
+        let title = document.querySelector('#title');
+        let date = document.querySelector('#date');
+        let priority = document.querySelector('#priority');
+        let desc = document.querySelector('#desc');
+
+        title.setAttribute('data-todo', todo.title);
+        title.value = todo.title;
+        date.value = todo.date;
+        priority.value = todo.priority;
+        desc.value = todo.desc;
+
+        this.openToDoCreator(project)
+    }
+
+    getPriority(num) {
+        switch(num) {
+            case 5: 
+                return "Highest";
+                break;
+            case 4:
+                return "High";
+            case 3:
+                return "Medium";
+            case 2:
+                return "Low";
+            case 1:
+                return "Lowest";
+            default:
+                return "Medium";
+        }
+    }
+
+    addToDoLine(newToDoDiv, newtodo) {
         // add clickable icon to check/uncheck
         let newToDoI = document.createElement('i');
         newToDoI.classList.add('far');
         newToDoI.classList.add('fa-circle');
 
+        newToDoI.addEventListener(('click'), (target) => {
+            let icon = target.currentTarget;
+            let toDoInput = target.currentTarget.nextElementSibling;
+
+            if(icon.classList.contains('fa-circle')) {
+                icon.classList.remove('fa-circle');
+                icon.classList.add('fa-check-circle');
+                toDoInput.classList.add('checked');
+                toDoInput.classList.remove('unchecked');
+                newtodo.toggleComplete();
+            } else {
+                icon.classList.remove('fa-check-circle');
+                icon.classList.add('fa-circle');
+                toDoInput.classList.add('unchecked');
+                toDoInput.classList.remove('checked');
+                newtodo.toggleComplete();
+            }
+        })
+
         //add input for text, changing it updates todo title
         let newToDoInp = document.createElement('input');
         newToDoInp.classList.add('unchecked');
-        newToDoInp.classList.add('project-name');
-        newToDoInp.value=newtodo.title;
+        newToDoInp.classList.add('todo-title-input')
+        newToDoInp.value = newtodo.title;
+
+        //add p elements for due date and priority
+        let newDueDate = document.createElement('p');
+        newDueDate.classList.add('due-date');
+        newDueDate.textContent = "Due date: " + newtodo.dueDate;
+
+
+        //priority
+        let newPriority = document.createElement('p');
+        newPriority.classList.add('priority');
+        let priorityText = this.getPriority(parseInt(newtodo.priority));
+        newPriority.textContent = "Priority: " + priorityText;
+
+        let proman = this.projectManager;
+        newToDoInp.addEventListener(('input'), function(evt){
+            console.log(evt)
+            let todoElement = evt.target;
+            newtodo.title = todoElement.value;
+            console.log(newtodo)
+            console.log(proman.projects)
+        });
 
         // add edit link, clinking it allows you to edit with add tab
         let newToDoEdit = document.createElement('i');
         newToDoEdit.classList.add('far');
         newToDoEdit.classList.add('fa-edit');
 
+        let viewMan = this;
+        newToDoEdit.addEventListener('click', function(evt) {
+            viewMan.editToDo(newtodo, newtodo.project)
+        });
+
         //append items to passed in Div
         newToDoDiv.appendChild(newToDoI);
         newToDoDiv.appendChild(newToDoInp);
+        newToDoDiv.appendChild(newDueDate);
+        newToDoDiv.appendChild(newPriority);
         newToDoDiv.appendChild(newToDoEdit);
     }
+
+    
 }
 
 export default ViewManager;

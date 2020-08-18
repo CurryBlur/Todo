@@ -14,6 +14,15 @@ class Project {
             this.todos.splice(this.todos.indexOf(todo),1);
         }
     }
+
+    getToDo(todoTitle) {
+        this.todos.forEach( function(todoitem) {
+            if (todoitem.title === todoTitle) {
+                return todoitem;
+            }
+        })
+        return false;
+    }
 }
 
 export default Project;
