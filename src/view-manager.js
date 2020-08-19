@@ -1,5 +1,6 @@
 import ProjectManager from "./project-manager";
 import ToDoItem from './to-do-item'
+import { saveProjects, loadProjects } from './local-manager'
 
 class ViewManager {
     constructor(projectManager){
@@ -87,7 +88,7 @@ class ViewManager {
                 //set up overall todoiv
                 let newToDoDiv = document.createElement('div');
                 newToDoDiv.classList.add('todo-basic')
-                newToDoDiv.setAttribute('data-todo',newtodo)
+                newToDoDiv.setAttribute('data-todo', newtodo)
 
                 this.addToDoLine(newToDoDiv, newtodo);
                 
@@ -105,18 +106,21 @@ class ViewManager {
     }
 
     editToDo(todo, project) {
+        console.log(todo);
         let title = document.querySelector('#title');
         let date = document.querySelector('#date');
         let priority = document.querySelector('#priority');
         let desc = document.querySelector('#desc');
+        let formTitle = document.querySelector('#form-title');
 
+        formTitle.textContent = "Edit todo item";
         title.setAttribute('data-todo', todo.title);
         title.value = todo.title;
-        date.value = todo.date;
+        date.value = todo.dueDate;
         priority.value = todo.priority;
-        desc.value = todo.desc;
+        desc.value = todo.description;
 
-        this.openToDoCreator(project)
+        this.openToDoCreator(project);
     }
 
     getPriority(num) {
@@ -141,7 +145,11 @@ class ViewManager {
         // add clickable icon to check/uncheck
         let newToDoI = document.createElement('i');
         newToDoI.classList.add('far');
-        newToDoI.classList.add('fa-circle');
+        if(newtodo.completed){
+            newToDoI.classList.add('fa-check-circle');
+        } else {
+            newToDoI.classList.add('fa-circle');
+        }
 
         newToDoI.addEventListener(('click'), (target) => {
             let icon = target.currentTarget;
@@ -164,7 +172,11 @@ class ViewManager {
 
         //add input for text, changing it updates todo title
         let newToDoInp = document.createElement('input');
-        newToDoInp.classList.add('unchecked');
+        if(newtodo.completed){
+            newToDoInp.classList.add('checked');
+        } else {
+            newToDoInp.classList.add('unchecked');
+        }
         newToDoInp.classList.add('todo-title-input')
         newToDoInp.value = newtodo.title;
 
@@ -182,11 +194,8 @@ class ViewManager {
 
         let proman = this.projectManager;
         newToDoInp.addEventListener(('input'), function(evt){
-            console.log(evt)
             let todoElement = evt.target;
             newtodo.title = todoElement.value;
-            console.log(newtodo)
-            console.log(proman.projects)
         });
 
         // add edit link, clinking it allows you to edit with add tab
@@ -207,7 +216,20 @@ class ViewManager {
         newToDoDiv.appendChild(newToDoEdit);
     }
 
-    
+    updateDisplay(){
+        while (this.projectsDiv.firstChild){
+            this.projectsDiv.removeChild(this.projectsDiv.firstChild)
+        }
+        if(this.projectManager.projects.length > 0){
+            this.projectManager.projects.forEach((project) => {
+                this.addProjectView(project);
+                project.todos.forEach((todo) => {
+                    this.addTodoView(project, todo);
+                })
+            })
+        }
+        saveProjects(this.projectManager);
+    }
 }
 
 export default ViewManager;

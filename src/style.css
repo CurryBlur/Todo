@@ -205,7 +205,6 @@ main {
 #add-todo-form > button:hover, .project-card > button:hover{
     background-color:  rgb(129, 124, 116);
     cursor: pointer;
-    
 }
 
 .form-elem {
@@ -218,7 +217,7 @@ main {
     width: 100%;
 }
 
-.form-elem:active, .form-elem:focus, .form-elem:focus-within, .project-name, #new-project-button {
+.form-elem:active, .todo-title-input:active, .todo-title-input:focus, .form-elem:focus, .form-elem:focus-within, .project-name, #new-project-button {
     outline: none;
 }
 
@@ -226,12 +225,14 @@ main {
     color: rgb(236, 205, 146);
     margin: 0 15px;
     font-size: 35px;
+    flex-grow: 2;
 }
 
 .priority {
     color: rgb(142, 197, 214);
     margin: 0 15px;
     font-size: 35px;
+    flex-grow: 2;
 }
 
 .todo-title-input {
@@ -242,5 +243,5 @@ main {
     font-size: 35px;
     width: 300px;
     margin: 0 15px;
-    flex-grow: 2;
+    flex-grow: 4;
 }

@@ -1,14 +1,26 @@
 import ToDoItem from './to-do-item'
 import ProjectManager from './project-manager'
 import ViewManager from './view-manager'
+import { saveProjects, loadProjects } from './local-manager'
 
-const projectManager = new ProjectManager();
+let projectManager = loadProjects();
+console.log(projectManager);
+/*
+if (localStorage.getItem('project-manager') !== null) {
+    projectManager = JSON.parse(localStorage.getItem('project-manager'));
+    console.log(projectManager.projects);
+}*/
+
 const viewManager = new ViewManager(projectManager);
+
+viewManager.updateDisplay();
 
 //add new project button event listener
 document.querySelector('#new-project-button').addEventListener('click', () => {
+    console.log(projectManager);
     let proj = projectManager.addProject();
     viewManager.addProjectView(proj)
+    saveProjects(projectManager);
 });
 
 document.querySelector('#add-to-do-button').addEventListener('click', () => {
@@ -16,29 +28,40 @@ document.querySelector('#add-to-do-button').addEventListener('click', () => {
     let addToDoWindow = document.querySelector('#add-todo');
     let project = projectManager.getProjByID(parseInt(addToDoWindow.getAttribute('data-proj')))
     
-
     let title = document.querySelector('#title');
     let date = document.querySelector('#date');
     let priority = document.querySelector('#priority');
     let desc = document.querySelector('#desc');
 
     let newToDo = null;
-    console.log(title.getAttribute('data-todo'))
-    if(title.getAttribute('data-todo') != null)
+    if(title.hasAttribute('data-todo'))
     {
-        newToDo = project.getToDo(title.getAttribute('data-todo'))   
+        console.log(title.getAttribute('data-todo'))
+        let oldToDo = project.getToDo(title.getAttribute('data-todo'))
+        console.log(oldToDo);
+        newToDo = new ToDoItem(project, title.value, desc.value, priority.value, date.value ? date.value : "None");
+        projectManager.updateToDo(project, oldToDo, newToDo);
+        viewManager.updateDisplay();
     } else {
         newToDo = new ToDoItem(project, title.value, desc.value, priority.value, date.value ? date.value : "None");
         projectManager.addToDo(project, newToDo);
+        viewManager.updateDisplay();
     }
-    viewManager.addTodoView(project, newToDo);
+    //viewManager.addTodoView(project, newToDo);
     addToDoWindow.style.display = 'none';
     title.value = "";
     date.value = "";
     priority.value = "";
     desc.value = "";
-    title.setAttribute('data-todo', null);
+    if(title.hasAttribute('data-todo')) {
+     title.removeAttribute('data-todo');
+    }
     let backgroundCover = document.querySelector('#background-cover');
     backgroundCover.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+
+    let formTitle = document.querySelector('#form-title');
+    formTitle.textContent = "Add a todo item";
+    console.log(localStorage)
 });
+
 

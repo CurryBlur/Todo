@@ -13,6 +13,9 @@ class ProjectManager {
         return newProject;
     }
 
+    addSavedProject(project){
+        this.projects.push(project);
+    }
     removeProject(project) {
         if(this.projects.includes(project)){
             this.projects.splice(this.projects.indexOf(project),1);
@@ -35,6 +38,10 @@ class ProjectManager {
 
     addToDo(project, todo){
         project.addToDo(todo)
+    }
+
+    updateToDo(project, oldToDo, newToDo){
+        project.updateToDo(oldToDo, newToDo)
     }
 }
 

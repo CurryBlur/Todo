@@ -10,18 +10,27 @@ class Project {
     }
 
     deleteToDo(todo) {
+        console.log(todo);
+        console.log(this.todos.includes(todo));
         if(this.todos.includes(todo)){
             this.todos.splice(this.todos.indexOf(todo),1);
         }
     }
 
     getToDo(todoTitle) {
-        this.todos.forEach( function(todoitem) {
-            if (todoitem.title === todoTitle) {
-                return todoitem;
+        for(let i = 0; i < this.todos.length; i++){
+            if(this.todos[i].title == todoTitle){
+                return this.todos[i];
             }
-        })
+        }
         return false;
+    }
+
+    updateToDo(oldToDo, newtodo){
+        oldToDo.title = newtodo.title;
+        oldToDo.description = newtodo.description;
+        oldToDo.priority = newtodo.priority;
+        oldToDo.dueDate = newtodo.dueDate;
     }
 }
 
