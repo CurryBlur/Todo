@@ -8,11 +8,11 @@ class ViewManager {
         this.projectsDiv = document.querySelector('#projects');
     }
 
-    addProjectView(project) {
+    addProjectView(project, title = "") {
         let projectCard = this.createProjectCard(project)
 
         //add Project name input
-        projectCard.append(this.createProjectNameInput(project));
+        projectCard.append(this.createProjectNameInput(project, title));
 
         //add trash icon to remove card
         projectCard.append(this.createProjectTrashIcon(project, projectCard));
@@ -30,15 +30,21 @@ class ViewManager {
         return projectCard;
     }
 
-    createProjectNameInput(project){
+    createProjectNameInput(project, title){
         let newInput = document.createElement('input');
         newInput.classList.add('project-name');
         newInput.type = 'text';
         newInput.placeholder = 'Project name';
         
+        if(title != ""){
+            newInput.value = title;
+        }
+        let proMan = this.projectManager;
+
         //add event listener for updating title, to update projects title in js
-        newInput.addEventListener('input', function() {
-            project.title = this.value;
+        newInput.addEventListener('input', function(evt) {
+            project.title = evt.target.value;
+            saveProjects(proMan);
         })
 
         return newInput;
@@ -49,9 +55,18 @@ class ViewManager {
         projectTrash.classList.add('fas');
         projectTrash.classList.add('fa-trash-alt');
         
-        projectTrash.addEventListener('click', () => {
-            this.projectManager.removeProject(project);
-            this.projectsDiv.removeChild(projectCard)
+        let proMan = this.projectManager;
+        
+        projectTrash.addEventListener('click', (evt) => {
+            
+            let parent = evt.target.parentElement;
+       
+            let thisProj = proMan.getProjByID(parent.getAttribute('data-proj'))
+         
+            proMan.removeProject(thisProj);
+
+            this.projectsDiv.removeChild(parent);
+            saveProjects(proMan);
         })
         return projectTrash;
     }
@@ -150,6 +165,7 @@ class ViewManager {
         } else {
             newToDoI.classList.add('fa-circle');
         }
+        let proMan = this.projectManager;
 
         newToDoI.addEventListener(('click'), (target) => {
             let icon = target.currentTarget;
@@ -168,6 +184,7 @@ class ViewManager {
                 toDoInput.classList.remove('checked');
                 newtodo.toggleComplete();
             }
+            saveProjects(proMan);
         })
 
         //add input for text, changing it updates todo title
@@ -196,6 +213,7 @@ class ViewManager {
         newToDoInp.addEventListener(('input'), function(evt){
             let todoElement = evt.target;
             newtodo.title = todoElement.value;
+            saveProjects(proman);
         });
 
         // add edit link, clinking it allows you to edit with add tab
@@ -222,13 +240,13 @@ class ViewManager {
         }
         if(this.projectManager.projects.length > 0){
             this.projectManager.projects.forEach((project) => {
-                this.addProjectView(project);
+                this.addProjectView(project, project.title);
                 project.todos.forEach((todo) => {
                     this.addTodoView(project, todo);
                 })
             })
         }
-        saveProjects(this.projectManager);
+        //saveProjects(this.projectManager);
     }
 }
 

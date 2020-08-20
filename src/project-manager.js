@@ -16,6 +16,7 @@ class ProjectManager {
     addSavedProject(project){
         this.projects.push(project);
     }
+
     removeProject(project) {
         if(this.projects.includes(project)){
             this.projects.splice(this.projects.indexOf(project),1);

@@ -4,7 +4,6 @@ import ViewManager from './view-manager'
 import { saveProjects, loadProjects } from './local-manager'
 
 let projectManager = loadProjects();
-console.log(projectManager);
 /*
 if (localStorage.getItem('project-manager') !== null) {
     projectManager = JSON.parse(localStorage.getItem('project-manager'));
@@ -17,7 +16,6 @@ viewManager.updateDisplay();
 
 //add new project button event listener
 document.querySelector('#new-project-button').addEventListener('click', () => {
-    console.log(projectManager);
     let proj = projectManager.addProject();
     viewManager.addProjectView(proj)
     saveProjects(projectManager);
@@ -36,14 +34,12 @@ document.querySelector('#add-to-do-button').addEventListener('click', () => {
     let newToDo = null;
     if(title.hasAttribute('data-todo'))
     {
-        console.log(title.getAttribute('data-todo'))
         let oldToDo = project.getToDo(title.getAttribute('data-todo'))
-        console.log(oldToDo);
-        newToDo = new ToDoItem(project, title.value, desc.value, priority.value, date.value ? date.value : "None");
+        newToDo = new ToDoItem(project, title.value, desc.value, priority.value, date.value ? new Date(date.value).toLocaleDateString('en-US') : "None");
         projectManager.updateToDo(project, oldToDo, newToDo);
         viewManager.updateDisplay();
     } else {
-        newToDo = new ToDoItem(project, title.value, desc.value, priority.value, date.value ? date.value : "None");
+        newToDo = new ToDoItem(project, title.value, desc.value, priority.value, date.value ? new Date(date.value).toLocaleDateString('en-US') : "None");
         projectManager.addToDo(project, newToDo);
         viewManager.updateDisplay();
     }
@@ -61,7 +57,5 @@ document.querySelector('#add-to-do-button').addEventListener('click', () => {
 
     let formTitle = document.querySelector('#form-title');
     formTitle.textContent = "Add a todo item";
-    console.log(localStorage)
+    saveProjects(projectManager);
 });
-
-
